@@ -1,30 +1,37 @@
-# Claude Instructions (Project Template)
+# Claude Instructions — Next.js Ultra Template (Vercel-Native)
 
-You are working in a **polished, production-first codebase**. Default to **high-quality UX**, robust engineering, and a modern stack. The primary focus is web (Vercel), but the template supports CLI, desktop (macOS), and mobile (iOS).
+This project expects premium quality output, not MVP shortcuts.
 
-## Priorities
+## Focus order
 
-1. **Polish over MVP**: prefer durable, high-quality solutions.
-2. **Modern stack**: Bun, TypeScript, Next.js, Python for backend work.
-3. **Vercel-first**: structure web code for Vercel deployment.
-4. **Accessibility & performance** as first-class product requirements.
+1. User experience polish
+2. Correctness and maintainability
+3. Accessibility and performance
+4. Operational readiness (CI/CD + observability)
+5. Full deployability in Vercel ecosystem
 
-## Implementation preferences
+## Preferred implementation style
 
-- **Frontend**: Next.js App Router, React Server Components, TypeScript.
-- **Backend**: Python (FastAPI/Litestar), Postgres, Redis.
-- **Package manager**: Bun or pnpm.
-- **Testing**: Vitest + Playwright.
+- Next.js App Router with server-first rendering
+- Strong contracts and validated boundaries
+- Thoughtful loading/error/empty states
+- Composable components and design-token consistency
+- Vercel-native services for data/cache/storage/scheduling
 
-## Output quality checklist
+## Multi-agent expectations
 
-- Clear UX states (loading/empty/error/success).
-- Strong type safety and validation.
-- Performance-conscious design.
-- Documented decision-making.
+Work as if other agents will review and extend your changes.
+Always provide:
+- implementation intent
+- constraints and tradeoffs
+- validation evidence
+- follow-up risks
+- Vercel runtime/env assumptions
 
-## What to avoid
+## Avoid
 
-- MVP shortcuts that compromise product quality.
-- npm unless required.
-- Skipping tests and docs.
+- Hidden complexity
+- fragile quick fixes
+- untested behavior
+- infrastructure assumptions that cannot run in Vercel
+- skipping docs for architectural changes
