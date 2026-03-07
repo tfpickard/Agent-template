@@ -1,64 +1,88 @@
-# Agent Guidelines (General-Purpose, Web-First)
+# Multi-Agent Delivery Protocol (Next.js-First, Vercel-Native)
 
-This document provides **engineering and product-quality standards** for building polished software across web, CLI, desktop, and mobile. The primary target is **web apps deployed to Vercel** using modern tooling (Bun, TypeScript, Next.js), but the standards apply broadly.
+Use this document as the operating contract for human + AI collaboration.
 
-## North Star
+## Mission
 
-Build **production-quality** software from day one:
-- **Design + engineering excellence** > rapid MVP shortcuts
-- **Shipping confidence** via testing, CI, and observability
-- **Performance and accessibility** as core product features
+Ship **beautiful, fast, accessible, and reliable** Next.js products with a repeatable system that supports multiple agents working in parallel and deploys fully on Vercel.
 
-## Preferred technology choices
+## Agent roles and responsibilities
 
-- **Runtime**: Bun (preferred), Node 20+ as fallback
-- **Package manager**: Bun or pnpm (avoid npm)
-- **Frontend**: Next.js App Router, React Server Components, Vite for non-Next apps
-- **Styling**: Tailwind or Vanilla Extract; design system first
-- **Backend**: **Python** (FastAPI / Litestar) as preferred
-- **Database**: Postgres + Prisma/Drizzle
-- **Deploy**: Vercel for web; Docker + Fly.io/Render for services
+### 1) Architect Agent
+- Owns architecture, route boundaries, data flow, and ADRs.
+- Defines contracts: schemas, API types, and state ownership.
+- Maps infra dependencies to Vercel-native services (Postgres/KV/Blob/Cron).
+- Produces implementation plan with risk register.
 
-## General guidelines
+### 2) Builder Agent
+- Implements slices in small, reviewable increments.
+- Follows architecture contracts exactly.
+- Adds tests in the same PR as behavior changes.
 
-### Web
-- Prefer **server components** and **edge runtime** where appropriate.
-- Use **typed contracts** (tRPC, OpenAPI, Zod schemas).
-- Implement **sensible caching** (stale-while-revalidate).
+### 3) Verifier Agent
+- Validates correctness, resilience, and security.
+- Expands test coverage for edge and failure cases.
+- Runs regression + compatibility checks.
 
-### CLI
-- Use **Python (Typer)** or **TS (oclif)** for clean UX.
-- Ensure **sane defaults**, `--help`, and error messages.
+### 4) Polish Agent
+- Upgrades UX quality: loading/empty/error states, motion, copy clarity.
+- Verifies WCAG AA, keyboard flow, and color contrast.
+- Enforces design-system consistency.
 
-### Desktop / Mobile
-- macOS: **SwiftUI** or **Tauri** (Rust + web UI).
-- iOS: SwiftUI with async/await.
+### 5) Release Agent
+- Owns CI/CD health, release notes, deployment checks, and rollback confidence.
+- Confirms Vercel preview behavior and production rollout safety.
+- Confirms observability hooks and runbooks are updated.
 
-## Product polish checklist
+---
 
-- Micro-interactions and loading states are intentional.
-- Empty states are designed and useful.
-- Errors are informative and actionable.
-- Accessibility is validated (keyboard + screen reader).
-- Performance targets documented and tested.
+## Handoff contract (required)
 
-## Testing expectations
+Every handoff must include:
 
-- Unit tests for pure logic.
-- Integration tests for APIs and DB.
-- Playwright for critical user flows.
-- Run tests in CI before merge.
+1. **Goal** — what is being changed and why
+2. **Scope** — files/routes/components touched
+3. **Constraints** — performance, accessibility, security, and runtime constraints
+4. **Validation** — tests/checks already run + results
+5. **Deployability** — Vercel env/runtime/service assumptions
+6. **Risks** — unresolved risks and follow-ups
 
-## Deployment expectations (Vercel)
+No “silent handoffs.” If a role cannot complete validation, it must explicitly document the block.
 
-- Use Vercel env vars and secrets.
-- Set runtime region(s) intentionally.
-- Monitor logs, errors, and performance.
+---
 
-## Documentation expectations
+## Next.js implementation standards
 
-Every project should include:
-- `README.md` (product overview + stack)
-- `ARCHITECTURE.md` (high-level system design)
-- `CONTRIBUTING.md` (standards + workflow)
-- `PROJECT_CHECKLIST.md` (launch readiness)
+- Default to **Server Components**.
+- Keep client components focused on interactive islands.
+- Prefer **Server Actions** for mutations unless API route separation is required.
+- Define cache semantics per route (`force-cache`, `revalidate`, or dynamic).
+- Make all user-visible states explicit: loading, empty, error, success.
+- Keep route-level boundaries intentional (`layout.tsx`, `loading.tsx`, `error.tsx`).
+- Document **Edge vs Node** runtime decisions for every non-trivial route.
+
+---
+
+## Quality gates (must pass before merge)
+
+- Type checks pass
+- Lint and format pass
+- Unit + integration tests pass
+- E2E smoke tests pass
+- Accessibility checks pass
+- Performance budget checks pass
+- `vercel build` passes
+
+If any gate fails, the PR is blocked.
+
+---
+
+## Personality presets (optional but recommended)
+
+- **Precision Architect**: conservative, evidence-first, constraint-aware
+- **Speed Builder**: fast iteration, strict on test inclusion
+- **Skeptical Verifier**: adversarial test mindset, failure-mode focused
+- **Craft Designer**: visual polish, interaction quality, accessibility detail
+- **Calm Release Captain**: operational discipline, rollback readiness
+
+Assign one preset per agent session to improve role clarity.

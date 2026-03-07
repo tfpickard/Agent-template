@@ -1,70 +1,121 @@
-# General-Purpose Project Template (Web, CLI, Desktop, Mobile)
+# Next.js Ultra Template — Vercel-Native, Multi-Agent, Production-Hardened
 
-This repository is a **polished, production-first template** for building modern products. It prioritizes **high-quality UX, long-term maintainability, and shipping confidence** over MVP shortcuts. It is designed for web apps (optimized for Vercel), but also supports **CLI tools, desktop (macOS), and mobile (iOS)** with a consistent engineering approach.
+This template is built for teams that want to ship **exceptional Next.js products** with **bleeding-edge engineering**, **multi-agent execution**, and **enterprise-grade CI/CD**—fully runnable in **Vercel and its ecosystem**.
 
-## What this template optimizes for
+It is intentionally opinionated: polish, reliability, and velocity are treated as features.
 
-- **Polished product > MVP**: invest in design systems, performance budgets, accessibility, and reliability from day one.
-- **Modern defaults**: Bun, TypeScript, Vite/Next.js, Tailwind/Vanilla Extract, and Python for backends.
-- **Vercel-first** deployments for web apps.
-- **Fast iteration** without sacrificing code quality: typed APIs, robust linting, and CI.
-- **Scalable structure**: works for single apps and monorepos.
+## Why this template exists
 
-## Recommended stack (early-adopter friendly)
+Most templates optimize for “hello world.”
+This one optimizes for **“ship world-class repeatedly.”**
 
-### Web
-- **Framework**: Next.js App Router (preferred) or Remix
-- **Runtime**: **Bun** (preferred) or Node 20+
-- **Package manager**: **Bun** or **pnpm** (avoid npm)
-- **Styling**: Tailwind CSS or Vanilla Extract
-- **State/data**: TanStack Query, tRPC or REST + OpenAPI
-- **DB**: Postgres + Prisma or Drizzle
-- **Auth**: NextAuth, Clerk, or custom OIDC
-- **Testing**: Playwright + Vitest + React Testing Library
-- **Analytics**: PostHog, Vercel Analytics
+- **Next.js-first** (App Router, RSC, Server Actions, PPR-ready architecture)
+- **Vercel-native hosting model**: app, preview envs, runtime, and managed services
+- **Multi-agent friendly** workflows with explicit roles and handoffs
+- **Strict quality gates**: tests, linting, type checks, accessibility, and performance budgets
+- **Beautiful-by-default product delivery** with design-system and UX polish standards
 
-### Backend (APIs, services, jobs)
-- **Language**: **Python** (FastAPI / Litestar), TypeScript, or Go for high-perf needs
-- **Tasks**: Celery + Redis (Python) or Temporal for workflows
-- **Observability**: OpenTelemetry + structured logging
+---
 
-### CLI / Desktop / Mobile
-- **CLI**: Python (Typer) or TypeScript (oclif) with Bun runtime
-- **macOS**: SwiftUI + Xcode (or Tauri + Rust for cross-platform)
-- **iOS**: SwiftUI + async/await
+## Core stack (2026-ready defaults)
 
-## Suggested repo structure
+### Frontend / Product
+- **Next.js** (App Router + React Server Components)
+- **TypeScript** (strict mode)
+- **Tailwind CSS v4** + tokenized design system
+- **shadcn/ui + Radix primitives** for accessible foundations
+- **Motion** (Framer Motion) for deliberate micro-interactions
 
-```
+### Data / Backend (Vercel ecosystem)
+- **Vercel Postgres** (primary relational store)
+- **Prisma or Drizzle**
+- **Vercel KV** for low-latency cache/session patterns
+- **Vercel Blob** for object/file storage
+- **tRPC or OpenAPI + Zod contracts**
+- **Vercel Cron / background jobs via Vercel-compatible workers**
+
+### Platform / Ops
+- **Vercel-first deployment** (preview + production + rollback)
+- **OpenTelemetry + Sentry + structured logs**
+- **GitHub Actions CI/CD** with parallel quality lanes and Vercel build validation
+
+### Testing and quality
+- **Vitest** for unit tests
+- **Playwright** for E2E and smoke validation
+- **Testing Library** for component behavior
+- **Lighthouse CI + axe checks** for perf + accessibility
+
+---
+
+## Multi-agent operating model
+
+This template assumes you use multiple AI/human roles in parallel:
+
+1. **Architect Agent** — updates system design and interfaces
+2. **Builder Agent** — implements feature slices
+3. **Verifier Agent** — tests, threat-models, and validates quality gates
+4. **Polish Agent** — improves UX, copy, loading/error states, and accessibility
+5. **Release Agent** — handles CI/CD, changelog, and release readiness
+
+See [agent.md](agent.md) for role contracts and handoff protocol.
+
+---
+
+## Suggested repository layout
+
+```txt
 .
-├── apps/               # web/mobile/desktop apps
-├── packages/           # shared UI, utils, API clients
-├── services/           # backend services, workers
-├── infra/              # deployment configs
-├── docs/               # product + engineering docs
+├── apps/
+│   └── web/                  # Next.js app deployed on Vercel
+├── packages/
+│   ├── ui/                   # design system + components
+│   ├── config/               # eslint, tsconfig, prettier, tailwind presets
+│   └── contracts/            # shared schemas / API types
+├── docs/
+│   ├── architecture/
+│   ├── runbooks/
+│   └── adr/
+├── .github/workflows/
 └── README.md
 ```
 
-## Vercel-first deployment guidelines
+---
 
-- Use **Next.js App Router** and prefer **Edge Runtime** for latency-critical routes.
-- Store secrets in **Vercel Environment Variables**.
-- Use **Vercel Cron** for scheduled jobs.
-- Prefer **Vercel Postgres** or managed Postgres (Neon/Supabase).
+## Next.js excellence checklist
 
-## Quality bar checklist (non-negotiable)
+- RSC by default; client components only where needed
+- Server Actions for mutation flows when appropriate
+- Route segment boundaries with `loading.tsx`, `error.tsx`, and `not-found.tsx`
+- PPR/caching strategy documented per route
+- Metadata API completed for all public pages
+- Image/Font optimization configured
+- Edge/runtime decisions explicit
 
-- ✅ Accessibility (WCAG AA) and keyboard navigation
-- ✅ Performance budgets + Lighthouse CI
-- ✅ Typed APIs and validated inputs
-- ✅ Observability (logs, tracing, metrics)
-- ✅ Security basics (rate limiting, CSRF, secrets management)
+See [ARCHITECTURE.md](ARCHITECTURE.md) and [PROJECT_CHECKLIST.md](PROJECT_CHECKLIST.md).
 
-## See also
+---
 
-- [agent.md](agent.md) – contributor & coding guidelines
-- [Claude.md](Claude.md) – Claude-specific instructions
-- [codex.md](codex.md) – Codex-specific instructions
-- [ARCHITECTURE.md](ARCHITECTURE.md) – system design defaults
-- [CONTRIBUTING.md](CONTRIBUTING.md) – workflows & standards
-- [PROJECT_CHECKLIST.md](PROJECT_CHECKLIST.md) – launch readiness
+## CI/CD expectations
+
+A pull request is mergeable only if all quality lanes pass:
+
+- Lint + format checks
+- Type checks
+- Unit tests
+- E2E smoke tests
+- Accessibility checks
+- Lighthouse/performance thresholds
+- Security scanning (dependency + secret scanning)
+- **Vercel build validation**
+
+A reference workflow is included at [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+---
+
+## Start here
+
+- [agent.md](agent.md) — multi-agent roles, contracts, and delivery protocol
+- [ARCHITECTURE.md](ARCHITECTURE.md) — Next.js system blueprint and Vercel-native decisions
+- [CONTRIBUTING.md](CONTRIBUTING.md) — branch strategy, quality gates, and PR standards
+- [PROJECT_CHECKLIST.md](PROJECT_CHECKLIST.md) — release readiness and polish checklist
+- [codex.md](codex.md) / [Claude.md](Claude.md) — AI-agent-specific execution instructions
